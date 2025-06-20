@@ -1,5 +1,7 @@
 import Link from "next/link";
+import Image from "next/image";
 import ButtonSignin from "@/components/ButtonSignin";
+import logo from "@/app/icon.png";
 
 export default function Page() {
   return (
@@ -10,18 +12,22 @@ export default function Page() {
 
       <main>
         <section className="flex flex-col items-center justify-center text-center gap-12 px-8 py-24">
-          <h1 className="text-3xl font-extrabold">Ship Fast ⚡️</h1>
+          <Image
+            src={logo}
+            alt="Weissteiner Familienkasse Logo"
+            width={128}
+            height={128}
+            className="mb-4"
+            priority
+          />
+          <h1 className="text-3xl font-extrabold">Weissteiner Familienkasse</h1>
 
           <p className="text-lg opacity-80">
-            The start of your new startup... What are you gonna build?
+            Dein digitaler Zugang zur Familienkasse.
           </p>
 
-          <a
-            className="btn btn-primary"
-            href="https://shipfa.st/docs"
-            target="_blank"
-          >
-            Documentation & tutorials{" "}
+          <Link className="btn btn-primary" href="/signin">
+            Zum Login{" "}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 20 20"
@@ -34,7 +40,7 @@ export default function Page() {
                 clipRule="evenodd"
               />
             </svg>
-          </a>
+          </Link>
         </section>
       </main>
     </>
