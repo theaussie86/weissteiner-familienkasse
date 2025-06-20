@@ -26,11 +26,6 @@ export interface ConfigProps {
   appName: string;
   appDescription: string;
   domainName: string;
-  aws?: {
-    bucket?: string;
-    bucketUrl?: string;
-    cdn?: string;
-  };
   colors: {
     theme: Theme;
     main: string;
