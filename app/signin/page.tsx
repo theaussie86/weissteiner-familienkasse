@@ -5,12 +5,14 @@ import { useState } from "react";
 import { createClient } from "@/libs/supabase/client";
 import { Provider } from "@supabase/supabase-js";
 import config from "@/config";
+import { useSearchParams } from "next/navigation";
 
 // This a login/singup page for Supabase Auth.
 // Successfull login redirects to /api/auth/callback where the Code Exchange is processed (see app/api/auth/callback/route.js).
 export default function Login() {
   const supabase = createClient();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const searchParams = useSearchParams();
 
   const handleSignin = async (
     e: any,
@@ -61,6 +63,18 @@ export default function Login() {
       <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-center mb-12">
         Anmelden bei {config.appName}
       </h1>
+
+      {searchParams?.get("error") && (
+        <div
+          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4"
+          role="alert"
+        >
+          <strong className="font-bold">Error:</strong>
+          <span className="block sm:inline ml-2">
+            {searchParams?.get("error")}
+          </span>
+        </div>
+      )}
 
       <div className="space-y-4 max-w-xl mx-auto">
         <button
