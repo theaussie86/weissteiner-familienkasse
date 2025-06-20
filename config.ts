@@ -3,12 +3,12 @@ import { ConfigProps } from "./types/config";
 
 const config = {
   // REQUIRED
-  appName: "ShipFast",
+  appName: "Weissteiner Familienkasse",
   // REQUIRED: a short description of your app for SEO tags (can be overwritten)
   appDescription:
-    "The NextJS boilerplate with all you need to build your SaaS, AI tool, or any other web app.",
+    "Mit dieser App behalten wir die Stände unserer Familienkasse im Blick",
   // REQUIRED (no https://, not trialing slash at the end, just the naked domain)
-  domainName: "shipfa.st",
+  domainName: "familienkasse.cweissteiner.com",
   colors: {
     // REQUIRED — The DaisyUI theme to use (added to the main layout.js). Leave blank for default (light & dark mode). If you any other theme than light/dark, you need to add it in config.tailwind.js in daisyui.themes.
     theme: "light",
