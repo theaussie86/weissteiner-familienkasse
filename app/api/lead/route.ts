@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
 
   try {
     // Here you can add your own logic
-    // For instance, sending a welcome email (use the the sendEmail helper function from /libs/resend)
     // For instance, saving the lead in the database (uncomment the code below)
 
     // const supabase = createClient();

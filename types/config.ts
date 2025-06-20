@@ -48,11 +48,6 @@ export interface ConfigProps {
     bucketUrl?: string;
     cdn?: string;
   };
-  resend: {
-    fromNoReply: string;
-    fromAdmin: string;
-    supportEmail?: string;
-  };
   colors: {
     theme: Theme;
     main: string;

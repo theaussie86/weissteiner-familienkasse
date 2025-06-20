@@ -30,7 +30,6 @@
     "react-hot-toast": "^2.4.1",
     "react-syntax-highlighter": "^5.8.0",
     "react-tooltip": "^5.26.3",
-    "resend": "^4.0.1",
     "stripe": "^13.11.0",
     "zod": "^3.22.4"
   },
