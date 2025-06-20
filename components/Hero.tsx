@@ -1,5 +1,4 @@
 import Image from "next/image";
-import TestimonialsAvatars from "./TestimonialsAvatars";
 import config from "@/config";
 
 const Hero = () => {
@@ -31,8 +30,6 @@ const Hero = () => {
         <button className="btn btn-primary btn-wide">
           Get {config.appName}
         </button>
-
-        <TestimonialsAvatars priority={true} />
       </div>
       <div className="lg:w-full">
         <Image

@@ -14,10 +14,6 @@ const links: {
   label: string;
 }[] = [
   {
-    href: "/#testimonials",
-    label: "Reviews",
-  },
-  {
     href: "/#faq",
     label: "FAQ",
   },
