@@ -38,7 +38,7 @@ const Step = ({ emoji, text }: { emoji: string; text: string }) => {
 // For instance:
 // - Hero: "ShipFast helps developers launch startups fast"
 // - Problem Agitation: "Developers spend too much time adding features, get overwhelmed, and quit." (not about ShipFast at all)
-// - Features: "ShipFast has user auth, Stripe, emails all set up for you"
+// - Features: "ShipFast has user auth, emails all set up for you"
 const Problem = () => {
   return (
     <section className="bg-neutral text-neutral-content">
@@ -52,7 +52,7 @@ const Problem = () => {
         </p>
 
         <div className="flex flex-col md:flex-row justify-center items-center md:items-start gap-6">
-          <Step emoji="🧑‍💻" text="8 hrs to add Stripe" />
+          <Step emoji="🧑‍💻" text="8 hrs to add payments" />
 
           <Arrow extraStyle="max-md:-scale-x-100 md:-rotate-90" />
 

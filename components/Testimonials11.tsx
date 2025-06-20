@@ -156,7 +156,7 @@ const list: {
   {
     username: "VicPivots",
     name: "Victor Abeledo",
-    text: "Marc, I got your boilerplate and having the payments setup with Stripe + user auth is a blessing. This will save me like a week of work for each new side project I spin up. I appreciate that is well documented, as well. 100% worth it 🚀🚀🚀",
+    text: "Marc, I got your boilerplate and user auth is a blessing. This will save me like a week of work for each new side project I spin up. I appreciate that is well documented, as well. 100% worth it 🚀🚀🚀",
     type: refTypes.twitter,
     link: "https://twitter.com/VicPivots/status/1697352442986250413?s=20",
   },

@@ -26,10 +26,12 @@ const Testimonial = () => {
 
             <div>
               <blockquote className="text-xl font-medium leading-8 text-base-content sm:text-2xl sm:leading-10">
-                I got your boilerplate and having the payments setup with Stripe
-                + user auth is a blessing. This will save me like a week of work
-                for each new side project I spin up. I appreciate that is well
-                documented, as well. 100% worth it!
+                <p className="text-lg text-base-content/80 leading-relaxed">
+                  I got your boilerplate and user auth is a blessing. This will
+                  save me like a week of work for each new side project I spin
+                  up. I appreciate that is well documented, as well. 100% worth
+                  it!
+                </p>
               </blockquote>
               <figcaption className="mt-10 flex items-center justify-start gap-5">
                 <div className="text-base">

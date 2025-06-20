@@ -1,5 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
-import { createClient } from "@/libs/supabase/server";
+import mailgun from "mailgun.js";
+import formData from "form-data";
 
 // This route is used to store the leads that are generated from the landing page.
 // The API call is initiated by <ButtonLead /> component
