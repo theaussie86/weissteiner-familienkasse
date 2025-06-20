@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import NextTopLoader from "nextjs-toploader";
 import { Toaster } from "react-hot-toast";
 import { Tooltip } from "react-tooltip";
@@ -11,6 +11,22 @@ import config from "@/config";
 // 2. Toaster: Show Success/Error messages anywhere from the app with toast()
 // 3. Tooltip: Show tooltips if any JSX elements has these 2 attributes: data-tooltip-id="tooltip" data-tooltip-content=""
 const ClientLayout = ({ children }: { children: ReactNode }) => {
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/sw.js")
+        .then((registration) =>
+          console.log(
+            "Service Worker registration successful, scope is:",
+            registration.scope
+          )
+        )
+        .catch((error) =>
+          console.log("Service Worker registration failed:", error)
+        );
+    }
+  }, []);
+
   return (
     <>
       {/* Show a progress bar at the top when navigating between pages */}
