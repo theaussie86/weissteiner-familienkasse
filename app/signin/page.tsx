@@ -1,15 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { createClient } from "@/libs/supabase/client";
 import { Provider } from "@supabase/supabase-js";
 import config from "@/config";
 import { useSearchParams } from "next/navigation";
 
-// This a login/singup page for Supabase Auth.
-// Successfull login redirects to /api/auth/callback where the Code Exchange is processed (see app/api/auth/callback/route.js).
-export default function Login() {
+// This is the main component that uses useSearchParams
+const LoginContent = () => {
   const supabase = createClient();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const searchParams = useSearchParams();
@@ -132,5 +131,14 @@ export default function Login() {
         </button>
       </div>
     </main>
+  );
+};
+
+// This is the wrapper component that suspends the page
+export default function Login() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LoginContent />
+    </Suspense>
   );
 }
