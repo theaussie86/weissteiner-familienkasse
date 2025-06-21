@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/popover";
 import { Account, Transaction } from "@/types";
 import { ChevronsUpDown, Check } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/libs/utils";
 
 interface AccountCellProps {
   row: Row<Transaction>;
