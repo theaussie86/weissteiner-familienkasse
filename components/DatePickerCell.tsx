@@ -11,17 +11,18 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Transaction } from "@/types";
 
 // Re-using the transaction type, let's ensure it's correct
-type Transaction = {
-  id: string;
-  created: string; // Assuming 'created' is the date field
-  description: string | null;
-  amount: number | null;
-  account: string | null;
-  is_paid: boolean | null;
-  currency: string | null;
-};
+// type Transaction = {
+//   id: string;
+//   created: string; // Assuming 'created' is the date field
+//   description: string | null;
+//   amount: number | null;
+//   account: string | null;
+//   is_paid: boolean | null;
+//   currency: string | null;
+// };
 
 interface DatePickerCellProps {
   row: Row<Transaction>;

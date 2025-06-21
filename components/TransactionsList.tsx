@@ -8,17 +8,20 @@ import {
 } from "@tanstack/react-table";
 import { useEffect, useMemo, useState } from "react";
 import { DatePickerCell } from "./DatePickerCell";
+import { DescriptionCell } from "./DescriptionCell";
+import { AmountCell } from "./AmountCell";
+import { Transaction } from "@/types";
 
 // Updated transaction type to match the user's changes
-type Transaction = {
-  id: string;
-  created: string;
-  description: string | null;
-  amount: number | null;
-  account: string | null;
-  is_paid: boolean | null;
-  currency: string | null;
-};
+// type Transaction = {
+//   id: string;
+//   created: string;
+//   description: string | null;
+//   amount: number | null;
+//   account: string | null;
+//   is_paid: boolean | null;
+//   currency: string | null;
+// };
 
 const columnHelper = createColumnHelper<Transaction>();
 
@@ -62,23 +65,11 @@ export default function TransactionsList({
       }),
       columnHelper.accessor("description", {
         header: () => "Beschreibung",
-        cell: (info) => (
-          <div className="p-2 border rounded-md bg-base-200/50">
-            {info.getValue()}
-          </div>
-        ),
+        cell: ({ row, table }) => <DescriptionCell row={row} table={table} />,
       }),
       columnHelper.accessor("amount", {
         header: () => "Betrag",
-        cell: (info) => (
-          <div className="p-2 border rounded-md bg-base-200/50">
-            {info.getValue() &&
-              new Intl.NumberFormat("de-DE", {
-                style: "currency",
-                currency: info.row.original.currency || "EUR",
-              }).format(info.getValue() as number)}
-          </div>
-        ),
+        cell: ({ row, table }) => <AmountCell row={row} table={table} />,
       }),
       columnHelper.accessor("account", {
         header: () => "Konto",
