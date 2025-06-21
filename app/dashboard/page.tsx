@@ -1,6 +1,9 @@
 import ButtonAccount from "@/components/ButtonAccount";
 import TransactionsList from "@/components/TransactionsList";
+import getQueryClient from "@/libs/getQueryClient";
+import { dehydrate } from "@tanstack/react-query";
 import { createClient } from "@/libs/supabase/server";
+import Hydrate from "@/app/providers/Hydrate";
 
 export const dynamic = "force-dynamic";
 
@@ -8,26 +11,42 @@ export const dynamic = "force-dynamic";
 // It's a server compoment which means you can fetch data (like the user profile) before the page is rendered.
 // See https://shipfa.st/docs/tutorials/private-page
 export default async function Dashboard() {
+  const queryClient = getQueryClient();
   const supabase = createClient();
 
-  const transactionsPromise = supabase
-    .from("familienkasse_transactions")
-    .select();
+  await queryClient.prefetchQuery({
+    queryKey: ["transactions"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("familienkasse_transactions")
+        .select("*");
+      if (error) throw new Error(error.message);
+      return data || [];
+    },
+  });
 
-  const accountsPromise = supabase.from("familienkasse_accounts").select();
+  await queryClient.prefetchQuery({
+    queryKey: ["accounts"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("familienkasse_accounts")
+        .select("*");
+      if (error) throw new Error(error.message);
+      return data || [];
+    },
+  });
 
-  const [{ data: transactions }, { data: accounts }] = await Promise.all([
-    transactionsPromise,
-    accountsPromise,
-  ]);
+  const dehydratedState = dehydrate(queryClient);
 
   return (
-    <main className="min-h-screen p-8 pb-24">
-      <section className="max-w-xl mx-auto space-y-8">
-        <ButtonAccount />
-        <h1 className="text-3xl md:text-4xl font-extrabold">Private Page</h1>
-        <TransactionsList transactions={transactions} accounts={accounts} />
-      </section>
-    </main>
+    <Hydrate state={dehydratedState}>
+      <main className="min-h-screen p-8 pb-24">
+        <section className="max-w-xl mx-auto space-y-8">
+          <ButtonAccount />
+          <h1 className="text-3xl md:text-4xl font-extrabold">Private Page</h1>
+          <TransactionsList />
+        </section>
+      </main>
+    </Hydrate>
   );
 }

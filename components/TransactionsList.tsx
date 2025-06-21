@@ -14,6 +14,8 @@ import { Account, Transaction } from "@/types";
 import { AccountCell } from "./AccountCell";
 import { Trash2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useQuery } from "@tanstack/react-query";
+import { createClient } from "@/libs/supabase/client";
 
 // Updated transaction type to match the user's changes
 // type Transaction = {
@@ -29,18 +31,46 @@ import { Checkbox } from "@/components/ui/checkbox";
 const columnHelper = createColumnHelper<Transaction>();
 
 // This component is now responsible for rendering the responsive transactions table/list.
-export default function TransactionsList({
-  transactions: initialTransactions,
-  accounts,
-}: {
-  transactions: Transaction[] | null;
-  accounts: Account[] | null;
-}) {
+export default function TransactionsList() {
+  const supabase = createClient();
+
+  const {
+    data: initialTransactions,
+    isLoading: isLoadingTransactions,
+    error: errorTransactions,
+  } = useQuery<Transaction[]>({
+    queryKey: ["transactions"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("familienkasse_transactions")
+        .select("*");
+      if (error) throw new Error(error.message);
+      return data || [];
+    },
+  });
+
+  const {
+    data: accounts,
+    isLoading: isLoadingAccounts,
+    error: errorAccounts,
+  } = useQuery<Account[]>({
+    queryKey: ["accounts"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("familienkasse_accounts")
+        .select("*");
+      if (error) throw new Error(error.message);
+      return data || [];
+    },
+  });
+
   const [transactions, setTransactions] = useState(initialTransactions || []);
 
   // Update state if the initial props change
   useEffect(() => {
-    setTransactions(initialTransactions || []);
+    if (initialTransactions) {
+      setTransactions(initialTransactions);
+    }
   }, [initialTransactions]);
 
   const updateTransaction = (
@@ -118,6 +148,14 @@ export default function TransactionsList({
       accounts,
     },
   });
+
+  if (isLoadingTransactions || isLoadingAccounts) {
+    return <p>Lade Daten...</p>;
+  }
+
+  if (errorTransactions || errorAccounts) {
+    return <p>Fehler beim Laden der Daten.</p>;
+  }
 
   if (!transactions || transactions.length === 0) {
     return <p>Keine Transaktionen gefunden.</p>;

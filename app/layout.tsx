@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Inter } from "next/font/google";
 import { Viewport } from "next";
 import { getSEOTags } from "@/libs/seo";
-import ClientLayout from "@/components/LayoutClient";
+import LayoutClient from "@/components/LayoutClient";
 import config from "@/config";
 import "./globals.css";
 
@@ -23,8 +23,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" data-theme={config.colors.theme} className={font.className}>
       <body>
-        {/* ClientLayout contains all the client wrappers (toast messages, tooltips, etc.) */}
-        <ClientLayout>{children}</ClientLayout>
+        <LayoutClient>{children}</LayoutClient>
       </body>
     </html>
   );
