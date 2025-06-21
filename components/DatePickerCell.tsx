@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Transaction } from "@/types";
+import { CalendarIcon } from "lucide-react";
 
 // Re-using the transaction type, let's ensure it's correct
 // type Transaction = {
@@ -52,7 +53,7 @@ export function DatePickerCell({ row, table }: DatePickerCellProps) {
     <Popover>
       <PopoverTrigger asChild>
         <Button variant="outline" className="w-full justify-start font-normal">
-          <span>🗓️</span>
+          <CalendarIcon className="mr-2 h-4 w-4" />
           <span className="ml-2">{format(date, "PPP", { locale: de })}</span>
         </Button>
       </PopoverTrigger>

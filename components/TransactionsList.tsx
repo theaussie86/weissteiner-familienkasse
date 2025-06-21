@@ -12,6 +12,8 @@ import { DescriptionCell } from "./DescriptionCell";
 import { AmountCell } from "./AmountCell";
 import { Account, Transaction } from "@/types";
 import { AccountCell } from "./AccountCell";
+import { Trash2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 // Updated transaction type to match the user's changes
 // type Transaction = {
@@ -82,13 +84,12 @@ export default function TransactionsList({
         header: () => "Bezahlt",
         cell: (info) => (
           <div className="flex justify-center">
-            <input
-              type="checkbox"
+            <Checkbox
               checked={info.getValue() || false}
-              onChange={(e) =>
-                handlePaidChange(info.row.original.id, e.target.checked)
+              onCheckedChange={(value) =>
+                handlePaidChange(info.row.original.id, !!value)
               }
-              className="checkbox"
+              aria-label="Bezahlt"
             />
           </div>
         ),
@@ -97,7 +98,9 @@ export default function TransactionsList({
         id: "actions",
         cell: () => (
           <div className="flex justify-center">
-            <button className="btn btn-ghost btn-sm">🗑️</button>
+            <button className="btn btn-ghost btn-sm">
+              <Trash2 className="w-4 h-4" />
+            </button>
           </div>
         ),
       }),
