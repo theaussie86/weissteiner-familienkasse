@@ -1,4 +1,6 @@
 import ButtonAccount from "@/components/ButtonAccount";
+import TransactionsList from "@/components/TransactionsList";
+import { createClient } from "@/libs/supabase/server";
 
 export const dynamic = "force-dynamic";
 
@@ -6,11 +8,18 @@ export const dynamic = "force-dynamic";
 // It's a server compoment which means you can fetch data (like the user profile) before the page is rendered.
 // See https://shipfa.st/docs/tutorials/private-page
 export default async function Dashboard() {
+  const supabase = createClient();
+
+  const { data: transactions } = await supabase
+    .from("familienkasse_transactions")
+    .select();
+
   return (
     <main className="min-h-screen p-8 pb-24">
       <section className="max-w-xl mx-auto space-y-8">
         <ButtonAccount />
         <h1 className="text-3xl md:text-4xl font-extrabold">Private Page</h1>
+        <TransactionsList transactions={transactions} />
       </section>
     </main>
   );
