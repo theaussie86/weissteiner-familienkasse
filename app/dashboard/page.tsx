@@ -10,16 +10,23 @@ export const dynamic = "force-dynamic";
 export default async function Dashboard() {
   const supabase = createClient();
 
-  const { data: transactions } = await supabase
+  const transactionsPromise = supabase
     .from("familienkasse_transactions")
     .select();
+
+  const accountsPromise = supabase.from("familienkasse_accounts").select();
+
+  const [{ data: transactions }, { data: accounts }] = await Promise.all([
+    transactionsPromise,
+    accountsPromise,
+  ]);
 
   return (
     <main className="min-h-screen p-8 pb-24">
       <section className="max-w-xl mx-auto space-y-8">
         <ButtonAccount />
         <h1 className="text-3xl md:text-4xl font-extrabold">Private Page</h1>
-        <TransactionsList transactions={transactions} />
+        <TransactionsList transactions={transactions} accounts={accounts} />
       </section>
     </main>
   );

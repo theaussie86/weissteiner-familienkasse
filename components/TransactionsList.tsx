@@ -10,7 +10,8 @@ import { useEffect, useMemo, useState } from "react";
 import { DatePickerCell } from "./DatePickerCell";
 import { DescriptionCell } from "./DescriptionCell";
 import { AmountCell } from "./AmountCell";
-import { Transaction } from "@/types";
+import { Account, Transaction } from "@/types";
+import { AccountCell } from "./AccountCell";
 
 // Updated transaction type to match the user's changes
 // type Transaction = {
@@ -28,8 +29,10 @@ const columnHelper = createColumnHelper<Transaction>();
 // This component is now responsible for rendering the responsive transactions table/list.
 export default function TransactionsList({
   transactions: initialTransactions,
+  accounts,
 }: {
   transactions: Transaction[] | null;
+  accounts: Account[] | null;
 }) {
   const [transactions, setTransactions] = useState(initialTransactions || []);
 
@@ -71,13 +74,9 @@ export default function TransactionsList({
         header: () => "Betrag",
         cell: ({ row, table }) => <AmountCell row={row} table={table} />,
       }),
-      columnHelper.accessor("account", {
+      columnHelper.accessor("account_id", {
         header: () => "Konto",
-        cell: (info) => (
-          <div className="p-2 border rounded-md bg-base-200/50">
-            {info.getValue()}
-          </div>
-        ),
+        cell: ({ row, table }) => <AccountCell row={row} table={table} />,
       }),
       columnHelper.accessor("is_paid", {
         header: () => "Bezahlt",
@@ -113,6 +112,7 @@ export default function TransactionsList({
     getCoreRowModel: getCoreRowModel(),
     meta: {
       updateTransaction,
+      accounts,
     },
   });
 

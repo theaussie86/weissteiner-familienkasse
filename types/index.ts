@@ -5,7 +5,12 @@ export type Transaction = {
   created: string;
   description: string | null;
   amount: number | null;
-  account: string | null;
+  account_id: string | null;
   is_paid: boolean | null;
   currency: string | null;
+};
+
+export type Account = {
+  id: string;
+  name: string;
 };
