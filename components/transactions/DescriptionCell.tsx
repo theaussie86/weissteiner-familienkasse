@@ -30,7 +30,7 @@ function DescriptionCellComponent({ row }: DescriptionCellProps) {
       type="text"
       defaultValue={initialDescription || ""}
       onBlur={handleBlur}
-      className="border rounded-md px-3 py-2 w-48 truncate"
+      className="border rounded-md px-3 py-2 w-full truncate"
     />
   );
 }

@@ -1,3 +1,4 @@
+import AccountSummaries from "@/components/AccountSummaries";
 import ButtonAccount from "@/components/ButtonAccount";
 import TransactionsList from "@/components/transactions/TransactionsList";
 
@@ -11,6 +12,8 @@ export default async function Dashboard() {
     <main className="min-h-screen p-8 pb-24">
       <section className="mx-auto px-4 space-y-8">
         <ButtonAccount />
+        <h1 className="text-2xl font-bold">Aktueller Stand</h1>
+        <AccountSummaries />
         <TransactionsList />
       </section>
     </main>

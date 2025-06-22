@@ -22,7 +22,7 @@ function PaidCellComponent({ row }: PaidCellProps) {
   };
 
   return (
-    <div className="text-center">
+    <div className="text-left">
       <Checkbox
         checked={isPaid || false}
         onCheckedChange={handleCheckedChange}

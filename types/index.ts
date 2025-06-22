@@ -13,3 +13,10 @@ export type Account = {
   id: string;
   name: string;
 };
+
+export type AccountSummary = {
+  id: string;
+  name: string;
+  ist_balance: number;
+  soll_balance: number;
+};

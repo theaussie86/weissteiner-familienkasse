@@ -37,7 +37,7 @@ function AmountCellComponent({ row }: AmountCellProps) {
         step="0.01"
         defaultValue={initialAmount != null ? initialAmount / 100 : ""}
         onBlur={handleBlur}
-        className="border rounded-md pl-7 pr-3 py-2 w-28 text-right"
+        className="border rounded-md pl-7 pr-3 py-2 w-full text-right"
       />
     </div>
   );

@@ -103,7 +103,7 @@ export default function TransactionsList() {
           {table.getRowModel().rows.map((row) => (
             <div
               key={row.id}
-              className="p-4 space-y-2 border rounded-lg shadow bg-base-100"
+              className="p-4 space-y-4 border rounded-lg shadow bg-base-100"
             >
               {row.getVisibleCells().map((cell) => {
                 const headerContext =
@@ -113,23 +113,27 @@ export default function TransactionsList() {
                     .headers.find((h) => h.id === cell.column.id);
                 const isActionsCell = cell.column.id === "actions";
 
+                if (isActionsCell) {
+                  return (
+                    <div key={cell.id} className="flex justify-end pt-2">
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </div>
+                  );
+                }
+
                 return (
-                  <div
-                    key={cell.id}
-                    className={`flex justify-between items-center ${
-                      isActionsCell ? "mt-4" : ""
-                    }`}
-                  >
-                    {!isActionsCell && (
-                      <span className="font-bold text-sm">
-                        {headerContext
-                          ? flexRender(
-                              cell.column.columnDef.header,
-                              headerContext.getContext()
-                            )
-                          : null}
-                      </span>
-                    )}
+                  <div key={cell.id} className="flex flex-col">
+                    <span className="font-bold text-sm mb-1">
+                      {headerContext
+                        ? flexRender(
+                            cell.column.columnDef.header,
+                            headerContext.getContext()
+                          )
+                        : null}
+                    </span>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </div>
                 );
