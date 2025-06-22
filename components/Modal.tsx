@@ -8,11 +8,18 @@ import React from "react";
 interface ModalProps {
   isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  children: React.ReactNode;
+  title: string;
 }
 
 // A simple modal component which can be shown/hidden with a boolean and a function
 // Because of the setIsModalOpen function, you can't use it in a server component.
-const Modal = ({ isModalOpen, setIsModalOpen }: ModalProps) => {
+const Modal = ({
+  isModalOpen,
+  setIsModalOpen,
+  children,
+  title,
+}: ModalProps) => {
   return (
     <Transition appear show={isModalOpen} as={Fragment}>
       <Dialog
@@ -29,7 +36,7 @@ const Modal = ({ isModalOpen, setIsModalOpen }: ModalProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-neutral-focus bg-opacity-50" />
+          <div className="fixed inset-0 bg-gray-500/50 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -46,7 +53,7 @@ const Modal = ({ isModalOpen, setIsModalOpen }: ModalProps) => {
               <Dialog.Panel className="relative w-full max-w-3xl h-full overflow-visible transform text-left align-middle shadow-xl transition-all rounded-xl bg-base-100 p-6 md:p-8">
                 <div className="flex justify-between items-center mb-4">
                   <Dialog.Title as="h2" className="font-semibold">
-                    I&apos;m a modal
+                    {title}
                   </Dialog.Title>
                   <button
                     className="btn btn-square btn-ghost btn-sm"
@@ -63,7 +70,7 @@ const Modal = ({ isModalOpen, setIsModalOpen }: ModalProps) => {
                   </button>
                 </div>
 
-                <section>And here is my content</section>
+                <section>{children}</section>
               </Dialog.Panel>
             </Transition.Child>
           </div>

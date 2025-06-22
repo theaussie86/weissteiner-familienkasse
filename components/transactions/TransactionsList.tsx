@@ -5,16 +5,12 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo } from "react";
-import { Transaction } from "@/types";
-import { Loader2, Trash2 } from "lucide-react";
+import { useMemo, useState } from "react";
 import { columns } from "./columns";
-import {
-  useTransactionsQuery,
-  useDeleteTransactionMutation,
-} from "@/hooks/queries/transactions";
+import { useTransactionsQuery } from "@/hooks/queries/transactions";
 import { useAccountsQuery } from "@/hooks/queries/accounts";
 import { Button } from "../ui/button";
+import { NewTransactionModal } from "./NewTransactionModal";
 
 export default function TransactionsList() {
   const {
@@ -28,8 +24,6 @@ export default function TransactionsList() {
     isLoading: isLoadingAccounts,
     error: errorAccounts,
   } = useAccountsQuery();
-
-  const { mutate: deleteTransaction } = useDeleteTransactionMutation();
 
   const accountsMap = useMemo(() => {
     if (!accounts) return new Map();
@@ -46,6 +40,8 @@ export default function TransactionsList() {
     },
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   if (isLoadingTransactions || isLoadingAccounts) {
     return <p>Lade Daten...</p>;
   }
@@ -59,10 +55,10 @@ export default function TransactionsList() {
   }
 
   return (
-    <div className="w-full">
+    <div className="container mx-auto py-10">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-2xl font-bold">Letzte Transaktionen</h1>
-        <Button>Neue Transaktion</Button>
+        <h2 className="text-2xl font-bold">Letzte Transaktionen</h2>
+        <Button onClick={() => setIsModalOpen(true)}>Neue Transaktion</Button>
       </div>
       {/* Desktop View: Table */}
       <div className="hidden md:block border border-gray-300 rounded-lg overflow-hidden">
@@ -142,6 +138,10 @@ export default function TransactionsList() {
           ))}
         </div>
       </div>
+      <NewTransactionModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </div>
   );
 }

@@ -46,6 +46,24 @@ export function useUpdateTransactionMutation() {
   });
 }
 
+export function useCreateTransactionMutation() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (data: Partial<Transaction>) => {
+      const { error } = await supabase
+        .from("familienkasse_transactions")
+        .insert(data);
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["transactions"] });
+    },
+    onError: (error) => {
+      console.error("Failed to create transaction:", error);
+    },
+  });
+}
+
 export function useDeleteTransactionMutation() {
   const queryClient = useQueryClient();
   return useMutation({

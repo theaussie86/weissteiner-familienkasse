@@ -7,7 +7,6 @@ export type Transaction = {
   amount: number | null;
   account_id: string | null;
   is_paid: boolean | null;
-  currency: string | null;
 };
 
 export type Account = {
