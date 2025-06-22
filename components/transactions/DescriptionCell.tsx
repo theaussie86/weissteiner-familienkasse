@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, FocusEvent } from "react";
 import type { Row } from "@tanstack/react-table";
 import { Transaction } from "@/types";
 import { useUpdateTransactionMutation } from "@/hooks/queries/transactions";
@@ -14,7 +14,7 @@ function DescriptionCellComponent({ row }: DescriptionCellProps) {
   const { mutate: updateTransaction } = useUpdateTransactionMutation();
   const initialDescription = row.original.description;
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     const newDescription = e.target.value;
     if (newDescription !== initialDescription) {
       updateTransaction({

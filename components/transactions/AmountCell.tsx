@@ -1,6 +1,6 @@
 "use client";
 
-import { memo } from "react";
+import { memo, FocusEvent } from "react";
 import type { Row } from "@tanstack/react-table";
 import { Transaction } from "@/types";
 import { useUpdateTransactionMutation } from "@/hooks/queries/transactions";
@@ -14,7 +14,7 @@ function AmountCellComponent({ row }: AmountCellProps) {
   const { mutate: updateTransaction } = useUpdateTransactionMutation();
   const initialAmount = row.original.amount;
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const newValueInCents = Math.round(Number(value) * 100);
 

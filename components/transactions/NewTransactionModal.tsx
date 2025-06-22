@@ -2,10 +2,11 @@
 
 import Modal from "@/components/Modal";
 import { NewTransactionForm } from "./NewTransactionForm";
+import React from "react";
 
 interface NewTransactionModalProps {
   isModalOpen: boolean;
-  setIsModalOpen: (isOpen: boolean) => void;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function NewTransactionModal({

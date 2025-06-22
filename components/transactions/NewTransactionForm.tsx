@@ -24,9 +24,10 @@ import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { de } from "date-fns/locale";
 import { cn } from "@/libs/utils";
+import React from "react";
 
 interface NewTransactionFormProps {
-  setIsOpen: (isOpen: boolean) => void;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 type FormData = {
