@@ -1,38 +1,36 @@
 "use client";
 
-import { useMemo, memo } from "react";
+import { memo } from "react";
 import type { Row } from "@tanstack/react-table";
-import { Input } from "@/components/ui/input";
 import { Transaction } from "@/types";
 import { useUpdateTransactionMutation } from "@/hooks/queries/transactions";
-import { useDebouncedCallback } from "use-debounce";
+import { Input } from "@/components/ui/input";
 
 interface DescriptionCellProps {
   row: Row<Transaction>;
 }
 
 function DescriptionCellComponent({ row }: DescriptionCellProps) {
-  const initialDescription = useMemo(
-    () => row.original.description || "",
-    [row.original.description]
-  );
-
   const { mutate: updateTransaction } = useUpdateTransactionMutation();
+  const initialDescription = row.original.description;
 
-  const debouncedUpdate = useDebouncedCallback((value: string) => {
-    if (value !== initialDescription) {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    const newDescription = e.target.value;
+    if (newDescription !== initialDescription) {
       updateTransaction({
         id: row.original.id,
-        data: { description: value },
+        data: { description: newDescription },
       });
     }
-  }, 500);
+  };
 
   return (
     <Input
-      defaultValue={initialDescription}
-      onChange={(e) => debouncedUpdate(e.target.value)}
-      className="w-full"
+      key={initialDescription} // Re-mounts the component if the external value changes
+      type="text"
+      defaultValue={initialDescription || ""}
+      onBlur={handleBlur}
+      className="border rounded-md px-3 py-2 w-48 truncate"
     />
   );
 }

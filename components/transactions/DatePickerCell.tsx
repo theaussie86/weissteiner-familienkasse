@@ -1,19 +1,19 @@
 "use client";
 
 import { memo } from "react";
-import { format } from "date-fns";
-import { de } from "date-fns/locale";
 import type { Row } from "@tanstack/react-table";
-import { Calendar } from "@/components/ui/calendar";
+import { Transaction } from "@/types";
+import { useUpdateTransactionMutation } from "@/hooks/queries/transactions";
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Transaction } from "@/types";
+import { cn } from "@/libs/utils";
 import { CalendarIcon } from "lucide-react";
-import { useUpdateTransactionMutation } from "@/hooks/queries/transactions";
+import { de } from "date-fns/locale";
 
 // Re-using the transaction type, let's ensure it's correct
 // type Transaction = {
@@ -31,16 +31,16 @@ interface DatePickerCellProps {
 }
 
 function DatePickerCellComponent({ row }: DatePickerCellProps) {
-  const initialDateStr = row.original.created;
-  const initialDate = initialDateStr ? new Date(initialDateStr) : new Date();
-
   const { mutate: updateTransaction } = useUpdateTransactionMutation();
+  const date = row.original.created
+    ? new Date(row.original.created)
+    : undefined;
 
-  const handleDateSelect = (newDate: Date | undefined) => {
-    if (newDate && newDate.getTime() !== initialDate.getTime()) {
+  const handleDateSelect = (selectedDate: Date | undefined) => {
+    if (selectedDate) {
       updateTransaction({
         id: row.original.id,
-        data: { created: newDate.toISOString() },
+        data: { created: selectedDate.toISOString() },
       });
     }
   };
@@ -48,17 +48,25 @@ function DatePickerCellComponent({ row }: DatePickerCellProps) {
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" className="w-full justify-start font-normal">
+        <Button
+          variant={"outline"}
+          className={cn(
+            "w-full justify-start text-left font-normal",
+            !date && "text-muted-foreground"
+          )}
+        >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          <span className="ml-2">
-            {format(initialDate, "PPP", { locale: de })}
-          </span>
+          {date ? (
+            date.toLocaleDateString("de-DE")
+          ) : (
+            <span>Wähle ein Datum</span>
+          )}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0">
         <Calendar
           mode="single"
-          selected={initialDate}
+          selected={date}
           onSelect={handleDateSelect}
           locale={de}
           initialFocus

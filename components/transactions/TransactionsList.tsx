@@ -14,6 +14,7 @@ import {
   useDeleteTransactionMutation,
 } from "@/hooks/queries/transactions";
 import { useAccountsQuery } from "@/hooks/queries/accounts";
+import { Button } from "../ui/button";
 
 export default function TransactionsList() {
   const {
@@ -59,30 +60,38 @@ export default function TransactionsList() {
 
   return (
     <div className="w-full">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold">Letzte Transaktionen</h1>
+        <Button>Neue Transaktion</Button>
+      </div>
       {/* Desktop View: Table */}
-      <div className="hidden md:block">
+      <div className="hidden md:block border border-gray-300 rounded-lg overflow-hidden">
         <table className="table w-full">
           <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <th key={header.id} className="text-left">
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </th>
-                ))}
-              </tr>
-            ))}
+            <tr
+              key={table.getHeaderGroups()[0].id}
+              className="bg-gray-100 border-b border-gray-300"
+            >
+              {table.getHeaderGroups()[0].headers.map((header) => (
+                <th
+                  key={header.id}
+                  className="text-left p-2 text-sm font-medium text-gray-500"
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
           </thead>
           <tbody>
             {table.getRowModel().rows.map((row) => (
-              <tr key={row.id}>
+              <tr key={row.id} className="border-b">
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="py-2">
+                  <td key={cell.id} className="py-2 px-2">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
@@ -106,32 +115,29 @@ export default function TransactionsList() {
                   table
                     .getHeaderGroups()[0]
                     .headers.find((h) => h.id === cell.column.id);
+                const isActionsCell = cell.column.id === "actions";
+
                 return (
                   <div
                     key={cell.id}
-                    className="flex justify-between items-center"
+                    className={`flex justify-between items-center ${
+                      isActionsCell ? "mt-4" : ""
+                    }`}
                   >
-                    <span className="font-bold text-sm">
-                      {headerContext
-                        ? flexRender(
-                            cell.column.columnDef.header,
-                            headerContext.getContext()
-                          )
-                        : null}
-                    </span>
+                    {!isActionsCell && (
+                      <span className="font-bold text-sm">
+                        {headerContext
+                          ? flexRender(
+                              cell.column.columnDef.header,
+                              headerContext.getContext()
+                            )
+                          : null}
+                      </span>
+                    )}
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </div>
                 );
               })}
-              <div className="flex justify-end">
-                <button
-                  onClick={() => deleteTransaction(row.original.id)}
-                  className="btn btn-ghost btn-sm"
-                  aria-label="Delete"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
-              </div>
             </div>
           ))}
         </div>

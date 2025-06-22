@@ -79,7 +79,7 @@ function AccountCellComponent({ row, table }: AccountCellProps) {
                     <CommandItem
                       key={account.id}
                       value={String(account.id)}
-                      onSelect={handleAccountSelect}
+                      onSelect={() => handleAccountSelect(account.id)}
                     >
                       <Check
                         className={cn(
