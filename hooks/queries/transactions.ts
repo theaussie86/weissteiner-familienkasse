@@ -22,6 +22,52 @@ export function useTransactionsQuery() {
   });
 }
 
+export function useTransactionsPaginationQuery(
+  page: number = 1,
+  pageSize: number = 10
+) {
+  const offset = (page - 1) * pageSize;
+
+  return useQuery<{
+    data: Transaction[];
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
+  }>({
+    queryKey: ["transactions", "pagination", page, pageSize],
+    queryFn: async () => {
+      // Zuerst die Gesamtanzahl abrufen
+      const { count, error: countError } = await supabase
+        .from("familienkasse_transactions")
+        .select("*", { count: "exact", head: true });
+
+      if (countError) throw new Error(countError.message);
+
+      // Dann die paginierten Daten abrufen
+      const { data, error } = await supabase
+        .from("familienkasse_transactions")
+        .select("*")
+        .order("created", { ascending: false })
+        .order("id", { ascending: false })
+        .range(offset, offset + pageSize - 1);
+
+      if (error) throw new Error(error.message);
+
+      const total = count || 0;
+      const totalPages = Math.ceil(total / pageSize);
+
+      return {
+        data: data || [],
+        total,
+        page,
+        pageSize,
+        totalPages,
+      };
+    },
+  });
+}
+
 export function useUpdateTransactionMutation() {
   const queryClient = useQueryClient();
   return useMutation({

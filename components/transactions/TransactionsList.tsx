@@ -7,17 +7,23 @@ import {
 } from "@tanstack/react-table";
 import { useMemo, useState, useCallback } from "react";
 import { columns } from "./columns";
-import { useTransactionsQuery } from "@/hooks/queries/transactions";
+import { useTransactionsPaginationQuery } from "@/hooks/queries/transactions";
 import { useAccountsQuery } from "@/hooks/queries/accounts";
 import { Button } from "../ui/button";
 import { NewTransactionModal } from "./NewTransactionModal";
+import { Pagination } from "./Pagination";
 
 export default function TransactionsList() {
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
+
   const {
-    data: transactions,
+    data: paginationData,
     isLoading: isLoadingTransactions,
     error: errorTransactions,
-  } = useTransactionsQuery();
+  } = useTransactionsPaginationQuery(currentPage, pageSize);
+
+  const transactions = paginationData?.data || [];
 
   const {
     data: accounts,
@@ -43,6 +49,10 @@ export default function TransactionsList() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
   if (isLoadingTransactions || isLoadingAccounts) {
     return <p>Lade Daten...</p>;
   }
@@ -52,7 +62,19 @@ export default function TransactionsList() {
   }
 
   if (!transactions || transactions.length === 0) {
-    return <p>Keine Transaktionen gefunden.</p>;
+    return (
+      <div className="container mx-auto py-10">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold">Letzte Transaktionen</h2>
+          <Button onClick={() => setIsModalOpen(true)}>Neue Transaktion</Button>
+        </div>
+        <p>Keine Transaktionen gefunden.</p>
+        <NewTransactionModal
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+        />
+      </div>
+    );
   }
 
   return (
@@ -96,6 +118,15 @@ export default function TransactionsList() {
             ))}
           </tbody>
         </table>
+        {paginationData && (
+          <Pagination
+            currentPage={paginationData.page}
+            totalPages={paginationData.totalPages}
+            onPageChange={handlePageChange}
+            totalItems={paginationData.total}
+            pageSize={paginationData.pageSize}
+          />
+        )}
       </div>
 
       {/* Mobile View: Cards */}
@@ -142,6 +173,15 @@ export default function TransactionsList() {
             </div>
           ))}
         </div>
+        {paginationData && (
+          <Pagination
+            currentPage={paginationData.page}
+            totalPages={paginationData.totalPages}
+            onPageChange={handlePageChange}
+            totalItems={paginationData.total}
+            pageSize={paginationData.pageSize}
+          />
+        )}
       </div>
       <NewTransactionModal
         isModalOpen={isModalOpen}
