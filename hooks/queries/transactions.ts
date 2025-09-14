@@ -40,6 +40,7 @@ export function useUpdateTransactionMutation() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["account_summaries"] });
     },
     onError: (error) => {
       console.error("Failed to update transaction:", error);
@@ -58,6 +59,7 @@ export function useCreateTransactionMutation() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["account_summaries"] });
     },
     onError: (error) => {
       console.error("Failed to create transaction:", error);
@@ -77,6 +79,7 @@ export function useDeleteTransactionMutation() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["transactions"] });
+      queryClient.invalidateQueries({ queryKey: ["account_summaries"] });
     },
     onError: (error) => {
       console.error("Failed to delete transaction:", error);
