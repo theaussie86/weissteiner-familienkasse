@@ -1,0 +1,13 @@
+# Ignore scripts directory for Vercel deployment
+scripts/
+
+# Ignore local environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Ignore other development files
+*.log
+.DS_Store
