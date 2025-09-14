@@ -14,6 +14,7 @@ export function useTransactionsQuery() {
         .from("familienkasse_transactions")
         .select("*")
         .order("created", { ascending: false })
+        .order("id", { ascending: false }) // Stabile Sortierung: erst created, dann id
         .limit(10);
       if (error) throw new Error(error.message);
       return data || [];

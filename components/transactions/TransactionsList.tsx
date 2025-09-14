@@ -5,7 +5,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { columns } from "./columns";
 import { useTransactionsQuery } from "@/hooks/queries/transactions";
 import { useAccountsQuery } from "@/hooks/queries/accounts";
@@ -34,6 +34,7 @@ export default function TransactionsList() {
     data: transactions || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getRowId: (row) => row.id, // Verwende die eindeutige Transaction ID als row ID
     meta: {
       accounts,
       accountsMap,
